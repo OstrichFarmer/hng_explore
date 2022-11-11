@@ -90,7 +90,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (context) => languageSheet()),
                     style: ElevatedButton.styleFrom(
                         primary: Colors.white,
                         padding: const EdgeInsets.all(10)),
@@ -127,4 +131,48 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  Widget languageSheet() => Container(
+        height: MediaQuery.of(context).size.height * 0.70,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(Dimensions.height20),
+                topRight: Radius.circular(Dimensions.height20))),
+        child: Column(
+          children: [
+            ListTile(
+              title: Text(
+                'Language',
+                style: GoogleFonts.montserrat(
+                    fontSize: 25, fontWeight: FontWeight.w600),
+              ),
+              trailing: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(Icons.cancel),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: 50,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      selectedColor: Colors.black,
+                      leading: Text(
+                        'Nigeria',
+                        style: GoogleFonts.montserrat(
+                            fontSize: Dimensions.font20,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      trailing: const Icon(Icons.circle_outlined),
+                      onTap: () {},
+                    );
+                  }),
+            ),
+          ],
+        ),
+      );
 }
