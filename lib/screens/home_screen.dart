@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hng_explore/utilities/colors.dart';
 import 'package:hng_explore/utilities/dimensions.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -60,7 +61,27 @@ class _HomeScreenState extends State<HomeScreen> {
             right: Dimensions.height24,
           ),
           child: Column(
-            children: [Container()],
+            children: [
+              TextFormField(
+                textAlign: TextAlign.center,
+                onChanged: (_) {},
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: AppColors.paleWhite,
+                  hintText: 'Search Country',
+                  hintStyle: TextStyle(
+                    fontSize: Dimensions.font20,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  prefixIcon: const Icon(
+                    Icons.search,
+                    color: Colors.black54,
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(Dimensions.height16),
+                ),
+              )
+            ],
           ),
         ),
       ),
