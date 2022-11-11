@@ -1,5 +1,8 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:hng_explore/utilities/dimensions.dart';
 import '../models/country_model.dart';
+import '../widgets/row_details_widget.dart';
 
 class CountryDetailsScreen extends StatefulWidget {
   final int? index;
@@ -17,7 +20,6 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     if (widget.country!.flag != null) {
       items.add(widget.country!.flags!.png!);
       print(widget.country!.flag!);
@@ -34,7 +36,8 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
       child: Scaffold(
         body: SingleChildScrollView(
             child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0.w, vertical: 18.h),
+          padding: EdgeInsets.symmetric(
+              horizontal: Dimensions.height24, vertical: Dimensions.height19),
           child: Column(
             children: [
               Row(
@@ -46,20 +49,20 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                       },
                       child: Icon(
                         Icons.arrow_back_outlined,
-                        size: 30.r,
+                        size: Dimensions.height30,
                       )),
                   Center(
                       child: Text(
                     widget.country!.name!.common!,
-                    style: TextStyle(fontSize: 20.sp),
+                    style: TextStyle(fontSize: Dimensions.height20),
                   )),
                   SizedBox(
-                    width: 30.w,
+                    width: Dimensions.height30,
                   )
                 ],
               ),
               SizedBox(
-                height: 16.h,
+                height: Dimensions.height16,
               ),
               CarouselSlider(
                   items: items.map((i) {
@@ -68,7 +71,7 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                         return Container(
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.r),
+                              borderRadius: BorderRadius.circular(8),
                               image: DecorationImage(
                                   image: NetworkImage(i!),
                                   fit: BoxFit.contain)),
@@ -77,7 +80,7 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                     );
                   }).toList(),
                   options: CarouselOptions(
-                    height: 250.h,
+                    height: Dimensions.height250,
                     aspectRatio: 16 / 9,
                     viewportFraction: 1.0,
                     initialPage: 0,
@@ -92,7 +95,7 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                     scrollDirection: Axis.horizontal,
                   )),
               SizedBox(
-                height: 24.h,
+                height: Dimensions.height24,
               ),
               RowDetails(
                   name: 'Population',
@@ -104,7 +107,7 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                   value: widget.country!.capital?.first ?? '-----'),
               RowDetails(name: 'Motto', value: 'Virtus unita fortior'),
               SizedBox(
-                height: 24.h,
+                height: Dimensions.height24,
               ),
               RowDetails(
                   name: 'Official Language',
@@ -115,7 +118,7 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
               RowDetails(name: 'Religion', value: 'Christianity'),
               RowDetails(name: 'Government', value: 'Parliamentary democracy'),
               SizedBox(
-                height: 24.h,
+                height: Dimensions.height24,
               ),
               RowDetails(name: 'Independence', value: '8th September, 1911'),
               RowDetails(
@@ -126,7 +129,7 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                   value: widget.country!.currencies!.bBD?.name ?? 'Euro'),
               RowDetails(name: 'GDP', value: "US\$3.400 billion"),
               SizedBox(
-                height: 24.h,
+                height: Dimensions.height24,
               ),
               RowDetails(
                   name: 'Time zone',
