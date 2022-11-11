@@ -18,7 +18,11 @@ class _HomeScreenState extends State<HomeScreen> {
         preferredSize: const Size.fromHeight(150),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(left: 24.0, top: 20, right: 24.0),
+            padding: EdgeInsets.only(
+              left: Dimensions.height24,
+              top: Dimensions.height20,
+              right: Dimensions.height24,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -36,11 +40,27 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: selectMode
                         ? const Icon(
                             Icons.wb_sunny_outlined,
+                            size: 30,
                             color: Colors.black,
                           )
-                        : const Icon(Icons.light_mode)),
+                        : const Icon(
+                            Icons.light_mode,
+                            size: 30,
+                          )),
               ],
             ),
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: Dimensions.height24,
+            top: Dimensions.height24,
+            right: Dimensions.height24,
+          ),
+          child: Column(
+            children: [Container()],
           ),
         ),
       ),
