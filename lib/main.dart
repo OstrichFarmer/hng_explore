@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hng_explore/provider/countr_list_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'config_file.dart';
+import 'models/language_model.dart';
 import 'screens/home_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Lang strings = Lang();
 
@@ -14,7 +17,7 @@ void main() async {
   if (langu != null) {
     strings.setLang(langu);
   } else {
-    strings.setLang(Lang.francaise); // set default language - English
+    strings.setLang(Lang.english); // set default language - English
   }
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider<CountryProvider>(create: (_) => CountryProvider()),
@@ -46,8 +49,10 @@ class _MyAppState extends State<MyApp> {
       builder: (_, child) {
         return GetMaterialApp(
           title: 'HNG EXPLORE',
-          theme:
-              ThemeData(brightness: Brightness.light, fontFamily: 'Axiforma'),
+          theme: ThemeData(
+            brightness: Brightness.light,
+            fontFamily: 'Axiforma',
+          ),
           darkTheme: ThemeData(
               scaffoldBackgroundColor: const Color(0xff000F24),
               brightness: Brightness.dark,
