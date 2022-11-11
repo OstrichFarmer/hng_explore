@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hng_explore/utilities/dimensions.dart';
+import '/utilities/dimensions.dart';
+import '../models/country_model.dart';
 
 class CountryCard extends StatefulWidget {
   final String? abbr;
