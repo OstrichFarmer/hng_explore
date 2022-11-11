@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hng_explore/utilities/colors.dart';
 import 'package:hng_explore/utilities/dimensions.dart';
 
@@ -69,9 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   filled: true,
                   fillColor: AppColors.paleWhite,
                   hintText: 'Search Country',
-                  hintStyle: TextStyle(
+                  hintStyle: GoogleFonts.montserrat(
                     fontSize: Dimensions.font20,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xff667085),
                   ),
                   prefixIcon: const Icon(
                     Icons.search,
@@ -80,6 +82,44 @@ class _HomeScreenState extends State<HomeScreen> {
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.all(Dimensions.height16),
                 ),
+              ),
+              SizedBox(
+                height: Dimensions.height16,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        padding: const EdgeInsets.all(10)),
+                    child: Row(
+                      children: const [
+                        Icon(Icons.language),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text('EN')
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        padding: const EdgeInsets.all(10)),
+                    child: Row(
+                      children: const [
+                        Icon(Icons.filter_alt_outlined),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text('Filter')
+                      ],
+                    ),
+                  ),
+                ],
               )
             ],
           ),
