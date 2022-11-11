@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hng_explore/screens/country_detail.dart';
 import '/utilities/dimensions.dart';
 import '../models/country_model.dart';
 
@@ -36,7 +37,7 @@ class _CountryCardState extends State<CountryCard> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => CountryInfoPage(
+                    builder: (_) => CountryDetailsScreen(
                           index: widget.index,
                           country: widget.country,
                         )));

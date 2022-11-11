@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import 'screens/home_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<CountryProvider>(create: (_) => CountryProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
