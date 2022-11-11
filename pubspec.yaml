@@ -67,16 +67,16 @@ flutter:
   fonts:
     #   - family: Schyler
     #     fonts:
-    #       - asset: fonts/Schyler-Regular.ttf
+    #        - asset: fonts/Schyler-Regular.ttf
     #       - asset: fonts/Schyler-Italic.ttf
     #         style: italic
     - family: Axiforma
       fonts:
-        - asset: assets/fonts/axiforma/Axiforma-Regular.ttf
+        - asset: assets/fonts/Axiforma-Regular.ttf
           weight: 500
-        - asset: assets/fonts/axiforma/Axiforma-Thin.ttf
+        - asset: assets/fonts/Axiforma-Thin.ttf
           weight: 400
-        - asset: assets/fonts/axiforma/Axiforma-Light.ttf
+        - asset: assets/fonts/Axiforma-Light.ttf
           weight: 300
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

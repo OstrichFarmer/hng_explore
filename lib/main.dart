@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hng_explore/provider/countr_list_provider.dart';
+import 'package:hng_explore/screens/country.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'config_file.dart';
@@ -62,7 +63,7 @@ class _MyAppState extends State<MyApp> {
           home: child,
         );
       },
-      child: const HomeScreen(),
+      child: const CountryListScreen(),
     );
   }
 }

@@ -8,6 +8,6 @@ class CountryProvider extends ChangeNotifier {
 
   setCountryData(Future<List<Country>?>? countryData) {
     _getCountryData = countryData;
-    notifyListeners();
+    // notifyListeners();
   }
 }
