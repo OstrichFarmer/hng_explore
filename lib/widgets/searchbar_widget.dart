@@ -18,7 +18,7 @@ class _SearchBarState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return Container(
       height: 48.h,
-      width: 380.w,
+      width: double.infinity,
       decoration: BoxDecoration(
         color: searchBarColor,
       ),

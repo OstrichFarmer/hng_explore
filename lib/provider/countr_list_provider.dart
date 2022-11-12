@@ -7,7 +7,7 @@ class CountryProvider extends ChangeNotifier {
   Future<List<Country>?>? get getCountryData => _getCountryData;
 
   setCountryData(Future<List<Country>?>? countryData) {
-    _getCountryData = countryData;
     // notifyListeners();
+    _getCountryData = countryData;
   }
 }

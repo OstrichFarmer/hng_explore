@@ -121,8 +121,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
                     SizedBox(
                       height: 16.h,
                     ),
-                    // const SearchBar(),
-                    /// searchbar
+
                     Container(
                       height: 48.h,
                       width: 380.w,
@@ -290,31 +289,76 @@ class _CountryListScreenState extends State<CountryListScreen> {
                         ),
 
                         /// filter
-                        Container(
-                          height: Dimensions.height20 * 2,
-                          width: Dimensions.height68 + 18,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4.r),
-                              border:
-                                  Border.all(color: const Color(0xffA9B8D4))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: 5.w,
-                              ),
-                              Icon(
-                                Icons.filter_alt_outlined,
-                                size: 19.r,
-                              ),
-                              Text(
-                                strings.get(1),
-                                style: TextStyle(fontSize: 12.sp),
-                              ),
-                              SizedBox(
-                                width: 5.w,
-                              ),
-                            ],
+                        InkWell(
+                          onTap: () => showModalBottomSheet(
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            builder: (context) {
+                              return Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.65,
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(
+                                            Dimensions.height20),
+                                        topRight: Radius.circular(
+                                            Dimensions.height20))),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 24.h,
+                                      ),
+                                      ListTile(
+                                        title: Text('Filter',
+                                            style: TextStyle(
+                                                fontFamily: "Axiforma",
+                                                fontSize: Dimensions.font25,
+                                                fontWeight: FontWeight.w600)),
+                                        trailing: InkWell(
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Icon(
+                                              Icons.cancel,
+                                              size: Dimensions.height30,
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          child: Container(
+                            height: Dimensions.height20 * 2,
+                            width: Dimensions.height68 + 18,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4.r),
+                                border:
+                                    Border.all(color: const Color(0xffA9B8D4))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width: 5.w,
+                                ),
+                                Icon(
+                                  Icons.filter_alt_outlined,
+                                  size: 19.r,
+                                ),
+                                Text(
+                                  strings.get(1),
+                                  style: TextStyle(fontSize: 12.sp),
+                                ),
+                                SizedBox(
+                                  width: 5.w,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

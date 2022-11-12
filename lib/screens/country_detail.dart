@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:hng_explore/utilities/dimensions.dart';
+import '../main.dart';
 import '../models/country_model.dart';
 import '../widgets/row_details_widget.dart';
 
@@ -20,6 +21,7 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
 
   @override
   void initState() {
+    // TODO: implement initState
     if (widget.country!.flag != null) {
       items.add(widget.country!.flags!.png!);
       print(widget.country!.flag!);
@@ -49,12 +51,12 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                       },
                       child: Icon(
                         Icons.arrow_back_outlined,
-                        size: Dimensions.height30,
+                        size: Dimensions.height35,
                       )),
                   Center(
                       child: Text(
                     widget.country!.name!.common!,
-                    style: TextStyle(fontSize: Dimensions.height20),
+                    style: TextStyle(fontSize: Dimensions.height35),
                   )),
                   SizedBox(
                     width: Dimensions.height30,
@@ -71,7 +73,8 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                         return Container(
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius:
+                                  BorderRadius.circular(Dimensions.height8),
                               image: DecorationImage(
                                   image: NetworkImage(i!),
                                   fit: BoxFit.contain)),
@@ -98,51 +101,54 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                 height: Dimensions.height24,
               ),
               RowDetails(
-                  name: 'Population',
+                  name: strings.get(2),
                   value: widget.country!.population!.toString()),
               RowDetails(
-                  name: 'Region', value: widget.country!.region!.toString()),
+                  name: strings.get(3),
+                  value: widget.country?.region ?? '-----'),
               RowDetails(
-                  name: 'Capital',
+                  name: strings.get(4),
                   value: widget.country!.capital?.first ?? '-----'),
-              RowDetails(name: 'Motto', value: 'Virtus unita fortior'),
+              RowDetails(name: strings.get(5), value: '-----'),
               SizedBox(
                 height: Dimensions.height24,
               ),
               RowDetails(
-                  name: 'Official Language',
-                  value: widget.country!.languages!.eng ?? '-----'),
+                  name: strings.get(6),
+                  value: widget.country!.languages?.eng ?? '-----'),
               RowDetails(
-                  name: 'Ethnic group',
-                  value: widget.country!.demonyms!.eng!.f ?? '-----'),
-              RowDetails(name: 'Religion', value: 'Christianity'),
-              RowDetails(name: 'Government', value: 'Parliamentary democracy'),
+                  name: strings.get(7),
+                  value: widget.country!.demonyms?.eng!.f ?? '-----'),
+              RowDetails(name: strings.get(8), value: '-----'),
+              RowDetails(name: strings.get(9), value: '-----'),
               SizedBox(
                 height: Dimensions.height24,
               ),
-              RowDetails(name: 'Independence', value: '8th September, 1911'),
               RowDetails(
-                  name: 'Area',
+                  name: strings.get(10),
+                  value: widget.country!.independent?.toString() ?? '-----'),
+              RowDetails(
+                  name: strings.get(11),
                   value: widget.country?.area.toString() ?? '-----'),
               RowDetails(
-                  name: 'Currency',
-                  value: widget.country!.currencies!.bBD?.name ?? 'Euro'),
-              RowDetails(name: 'GDP', value: "US\$3.400 billion"),
+                  name: strings.get(12),
+                  value: widget.country!.currencies?.bBD?.name ?? 'Euro'),
+              const RowDetails(name: 'GDP', value: "-----"),
               SizedBox(
                 height: Dimensions.height24,
               ),
               RowDetails(
-                  name: 'Time zone',
+                  name: strings.get(13),
                   value: widget.country!.timezones?.first ?? 'UTC+01:00'),
               RowDetails(
-                  name: 'Date Format',
+                  name: strings.get(14),
                   value: widget.country!.postalCode?.format ?? 'dd/mm/yyyy'),
               RowDetails(
-                  name: 'Dialling Code',
+                  name: strings.get(15),
                   value:
-                      '${widget.country!.idd!.root}${widget.country!.idd!.suffixes!.first}'),
+                      '${widget.country!.idd?.root ?? ''}${widget.country!.idd?.suffixes?.first ?? ''}'),
               RowDetails(
-                  name: 'Driving Side',
+                  name: strings.get(16),
                   value: widget.country!.car?.side ?? 'right'),
             ],
           ),
