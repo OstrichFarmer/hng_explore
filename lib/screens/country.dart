@@ -297,7 +297,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
                             builder: (context) {
                               return Container(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.65,
+                                    MediaQuery.of(context).size.height * 0.35,
                                 decoration: BoxDecoration(
                                     color: Theme.of(context)
                                         .scaffoldBackgroundColor,
