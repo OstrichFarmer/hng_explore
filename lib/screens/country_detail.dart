@@ -67,36 +67,38 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                 height: Dimensions.height16,
               ),
               CarouselSlider(
-                  items: items.map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(Dimensions.height8),
-                              image: DecorationImage(
-                                  image: NetworkImage(i!),
-                                  fit: BoxFit.contain)),
-                        );
-                      },
-                    );
-                  }).toList(),
-                  options: CarouselOptions(
-                    height: Dimensions.height250,
-                    aspectRatio: 16 / 9,
-                    viewportFraction: 1.0,
-                    initialPage: 0,
-                    enableInfiniteScroll: true,
-                    reverse: true,
-                    autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 4),
-                    autoPlayAnimationDuration:
-                        const Duration(milliseconds: 800),
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                    enlargeCenterPage: true,
-                    scrollDirection: Axis.horizontal,
-                  )),
+                items: items.map((i) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(Dimensions.height8),
+                            image: DecorationImage(
+                                image: NetworkImage(i!), fit: BoxFit.contain)),
+                      );
+                    },
+                  );
+                }).toList(),
+                options: CarouselOptions(
+                  height: Dimensions.height250,
+                  aspectRatio: 16 / 9,
+                  viewportFraction: 1.0,
+                  initialPage: 0,
+                  enableInfiniteScroll: true,
+                  reverse: true,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 4),
+                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enlargeCenterPage: true,
+                  scrollDirection: Axis.horizontal,
+                ),
+              ),
+              SizedBox(
+                height: Dimensions.height24,
+              ),
               SizedBox(
                 height: Dimensions.height24,
               ),
@@ -120,7 +122,8 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                   name: strings.get(7),
                   value: widget.country!.demonyms?.eng!.f ?? '-----'),
               RowDetails(name: strings.get(8), value: '-----'),
-              RowDetails(name: strings.get(9), value: '-----'),
+              RowDetails(
+                  name: strings.get(9), value: 'Parliamentary democracy'),
               SizedBox(
                 height: Dimensions.height24,
               ),
@@ -133,7 +136,7 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
               RowDetails(
                   name: strings.get(12),
                   value: widget.country!.currencies?.bBD?.name ?? 'Euro'),
-              const RowDetails(name: 'GDP', value: "-----"),
+              RowDetails(name: 'GDP', value: "US\$3.400 billion"),
               SizedBox(
                 height: Dimensions.height24,
               ),

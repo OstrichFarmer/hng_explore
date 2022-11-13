@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_awesome_select/flutter_awesome_select.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:hng_explore/utilities/dimensions.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config_file.dart';
@@ -11,11 +11,8 @@ import '../models/country_model.dart';
 import '../models/language_model.dart';
 import '../provider/countr_list_provider.dart';
 import '../repository/country_repository.dart';
-import '../utilities/colors.dart';
-import '../utilities/dimensions.dart';
 import '../utilities/styles.dart';
 import '../widgets/country_card.dart';
-import '../widgets/searchbar_widget.dart';
 
 class CountryListScreen extends StatefulWidget {
   const CountryListScreen({Key? key}) : super(key: key);
@@ -49,6 +46,39 @@ class _CountryListScreenState extends State<CountryListScreen> {
   List<Country> country = [];
   int langVal = 0;
 
+  List<S2Choice<dynamic>> continents = [
+    S2Choice(value: 1, title: 'Africa'),
+    S2Choice(value: 2, title: 'Antarctica'),
+    S2Choice(value: 3, title: 'Asia'),
+    S2Choice(value: 4, title: 'Australia'),
+    S2Choice(value: 5, title: 'Europe'),
+    S2Choice(value: 6, title: 'North America'),
+    S2Choice(value: 7, title: 'South America'),
+  ];
+
+  List<S2Choice<dynamic>> timeZone = [
+    S2Choice(value: 1, title: 'UTC+01:00'),
+    S2Choice(value: 2, title: 'UTC+02:00'),
+    S2Choice(value: 3, title: 'UTC+03:00'),
+    S2Choice(value: 4, title: 'UTC+04:00'),
+    S2Choice(value: 5, title: 'UTC+05:00'),
+    S2Choice(value: 6, title: 'UTC+06:00'),
+    S2Choice(value: 7, title: 'UTC+07:00'),
+    S2Choice(value: 8, title: 'UTC-01:00'),
+  ];
+  List<int> value = [2];
+  List<S2Choice> options = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((t) {
+      Provider.of<CountryProvider>(context, listen: false)
+          .setCountryData(CountryRespository().getData());
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     List alpha = [
@@ -79,6 +109,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
       'Y',
       'Z'
     ];
+
     List added = [];
     return SafeArea(
       child: Scaffold(
@@ -86,7 +117,6 @@ class _CountryListScreenState extends State<CountryListScreen> {
           padding: EdgeInsets.symmetric(horizontal: 24.0.w, vertical: 24.h),
           child: Consumer<CountryProvider>(
             builder: (_, provider, body) {
-              provider.setCountryData(CountryRespository().getData());
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -121,23 +151,24 @@ class _CountryListScreenState extends State<CountryListScreen> {
                     SizedBox(
                       height: 16.h,
                     ),
-
+                    // const SearchBar(),
+                    /// searchbar
                     Container(
                       height: 48.h,
                       width: 380.w,
                       decoration: BoxDecoration(
-                        color: searchBarColor,
+                        color: Theme.of(context).highlightColor,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(width: Dimensions.height16),
+                          SizedBox(width: 16.w),
                           Icon(
                             Icons.search,
-                            size: Dimensions.height16,
-                            color: searchTextColor,
+                            size: 16.r,
+                            color: Theme.of(context).hintColor,
                           ),
-                          Expanded(child: SizedBox(width: Dimensions.height16)),
+                          Expanded(child: SizedBox(width: 16.w)),
                           Expanded(
                             child: Align(
                               alignment: Alignment.center,
@@ -145,7 +176,8 @@ class _CountryListScreenState extends State<CountryListScreen> {
                                 controller: searchCountryController,
                                 decoration: InputDecoration(
                                     hintText: strings.get(0),
-                                    hintStyle: searchTextStyle,
+                                    hintStyle: searchTextStyle.copyWith(
+                                        color: Theme.of(context).hintColor),
                                     border: InputBorder.none),
                                 onChanged: (string) {
                                   _debouncer.run(() {
@@ -165,12 +197,12 @@ class _CountryListScreenState extends State<CountryListScreen> {
                               ),
                             ),
                           ),
-                          Expanded(child: SizedBox(width: Dimensions.height16))
+                          Expanded(child: SizedBox(width: 16.w))
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: Dimensions.height16,
+                      height: 16.h,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -178,41 +210,35 @@ class _CountryListScreenState extends State<CountryListScreen> {
                         /// Language
                         InkWell(
                           onTap: () => showModalBottomSheet(
-                            isScrollControlled: true,
                             backgroundColor: Colors.transparent,
                             context: context,
                             builder: (context) {
-                              return Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.65,
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(
-                                            Dimensions.height20),
-                                        topRight: Radius.circular(
-                                            Dimensions.height20))),
-                                child: SingleChildScrollView(
+                              return SingleChildScrollView(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                      )),
                                   child: Column(
                                     children: [
                                       SizedBox(
                                         height: 24.h,
                                       ),
                                       ListTile(
-                                        title: Text('Languages',
-                                            style: TextStyle(
-                                                fontFamily: "Axiforma",
-                                                fontSize: Dimensions.font25,
-                                                fontWeight: FontWeight.w600)),
+                                        title: Text(
+                                          strings.get(17),
+                                          style: TextStyle(
+                                              fontSize: 20.sp,
+                                              fontWeight: FontWeight.w600),
+                                        ),
                                         trailing: InkWell(
                                             onTap: () {
-                                              Navigator.pop(context);
+                                              Navigator.of(context).pop();
                                             },
-                                            child: Icon(
-                                              Icons.cancel,
-                                              size: Dimensions.height30,
-                                            )),
+                                            child: const Icon(Icons.cancel)),
                                       ),
                                       ListView.builder(
                                           physics:
@@ -222,9 +248,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
                                           itemBuilder: (_, index) {
                                             return Padding(
                                                 padding: EdgeInsets.only(
-                                                    left: 24.w,
-                                                    right: 24.w,
-                                                    top: 24.h),
+                                                    left: 24.w, right: 24.w),
                                                 child: ListTile(
                                                   title: Text(Lang()
                                                       .langData[index]
@@ -249,6 +273,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
                                                         strings
                                                             .setLang(index + 1);
                                                       });
+                                                      Navigator.pop(context);
                                                     },
                                                   ),
                                                 ));
@@ -260,28 +285,28 @@ class _CountryListScreenState extends State<CountryListScreen> {
                             },
                           ),
                           child: Container(
-                            height: Dimensions.height20 * 2,
-                            width: Dimensions.height68 + 5,
+                            height: 40.h,
+                            width: 73.w,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.r),
+                                borderRadius: BorderRadius.circular(5.r),
                                 border:
                                     Border.all(color: const Color(0xffA9B8D4))),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SizedBox(
-                                  width: Dimensions.height5,
+                                  width: 5.w,
                                 ),
                                 Icon(
                                   Icons.language_rounded,
-                                  size: Dimensions.height19,
+                                  size: 18.r,
                                 ),
                                 Text(
                                   'EN',
-                                  style: TextStyle(fontSize: Dimensions.font12),
+                                  style: TextStyle(fontSize: 14.sp),
                                 ),
                                 SizedBox(
-                                  width: Dimensions.height5,
+                                  width: 5.w,
                                 ),
                               ],
                             ),
@@ -291,42 +316,42 @@ class _CountryListScreenState extends State<CountryListScreen> {
                         /// filter
                         InkWell(
                           onTap: () => showModalBottomSheet(
-                            isScrollControlled: true,
                             backgroundColor: Colors.transparent,
                             context: context,
                             builder: (context) {
-                              return Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.35,
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(
-                                            Dimensions.height20),
-                                        topRight: Radius.circular(
-                                            Dimensions.height20))),
-                                child: SingleChildScrollView(
+                              return SingleChildScrollView(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20))),
                                   child: Column(
                                     children: [
                                       SizedBox(
                                         height: 24.h,
                                       ),
-                                      ListTile(
-                                        title: Text('Filter',
-                                            style: TextStyle(
-                                                fontFamily: "Axiforma",
-                                                fontSize: Dimensions.font25,
-                                                fontWeight: FontWeight.w600)),
-                                        trailing: InkWell(
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Icon(
-                                              Icons.cancel,
-                                              size: Dimensions.height30,
-                                            )),
+                                      Text(
+                                        strings.get(1),
+                                        style: TextStyle(fontSize: 16.sp),
                                       ),
+                                      SmartSelect.multiple(
+                                        choiceItems: continents,
+                                        choiceLoader: null,
+                                        title: strings.get(18),
+                                        selectedValue: value,
+                                        selectedChoice: options,
+                                        onChange: (state) {},
+                                      ),
+                                      SmartSelect.multiple(
+                                        choiceItems: timeZone,
+                                        choiceLoader: null,
+                                        title: strings.get(13),
+                                        selectedValue: value,
+                                        selectedChoice: options,
+                                        onChange: (state) {},
+                                      )
                                     ],
                                   ),
                                 ),
@@ -334,10 +359,10 @@ class _CountryListScreenState extends State<CountryListScreen> {
                             },
                           ),
                           child: Container(
-                            height: Dimensions.height20 * 2,
-                            width: Dimensions.height68 + 18,
+                            height: 40.h,
+                            width: 86.w,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.r),
+                                borderRadius: BorderRadius.circular(5.r),
                                 border:
                                     Border.all(color: const Color(0xffA9B8D4))),
                             child: Row(
@@ -352,7 +377,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
                                 ),
                                 Text(
                                   strings.get(1),
-                                  style: TextStyle(fontSize: 12.sp),
+                                  style: TextStyle(fontSize: 14.sp),
                                 ),
                                 SizedBox(
                                   width: 5.w,
