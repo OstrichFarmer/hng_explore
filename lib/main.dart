@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'config_file.dart';
 import 'models/language_model.dart';
-import 'screens/home_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Lang strings = Lang();
@@ -49,15 +48,21 @@ class _MyAppState extends State<MyApp> {
       splitScreenMode: true,
       builder: (_, child) {
         return GetMaterialApp(
-          title: 'HNG EXPLORE',
-          theme: ThemeData(
-            brightness: Brightness.light,
-            fontFamily: 'Axiforma',
-          ),
+          theme: ThemeData(brightness: Brightness.light, fontFamily: 'Axiforma')
+              .copyWith(
+                  appBarTheme: const AppBarTheme(
+                      backgroundColor: Colors.black,
+                      titleTextStyle: TextStyle(
+                          color: Colors.black, fontFamily: 'Axiforma'))),
           darkTheme: ThemeData(
-              scaffoldBackgroundColor: const Color(0xff000F24),
-              brightness: Brightness.dark,
-              fontFamily: 'Axiforma'),
+                  scaffoldBackgroundColor: const Color(0xff000F24),
+                  brightness: Brightness.dark,
+                  fontFamily: 'Axiforma')
+              .copyWith(
+                  appBarTheme: AppBarTheme(
+                      backgroundColor: const Color(0xff000F24),
+                      toolbarTextStyle: Theme.of(context).textTheme.bodyText2,
+                      titleTextStyle: Theme.of(context).textTheme.headline6)),
           debugShowCheckedModeBanner: false,
           themeMode: currentTheme.currentTheme(),
           home: child,
