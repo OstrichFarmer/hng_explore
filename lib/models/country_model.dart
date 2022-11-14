@@ -205,6 +205,8 @@ class Name {
     json['nativeName'] = nativeName?.toJson();
     return json;
   }
+
+  compareTo(Name? name) {}
 }
 
 class NativeName {

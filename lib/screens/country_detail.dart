@@ -56,11 +56,13 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                   Center(
                       child: Text(
                     widget.country!.name!.common!,
-                    style: TextStyle(fontSize: Dimensions.height35),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: TextStyle(
+                        fontSize: Dimensions.font18,
+                        fontWeight: FontWeight.w500),
                   )),
-                  SizedBox(
-                    width: Dimensions.height30,
-                  )
+                  const SizedBox.shrink()
                 ],
               ),
               SizedBox(
