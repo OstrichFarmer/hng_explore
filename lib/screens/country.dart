@@ -171,7 +171,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
                     /// searchbar
                     Container(
                       height: 48.h,
-                      width: 380.w,
+                      width: double.infinity,
                       decoration: BoxDecoration(
                         color: Theme.of(context).highlightColor,
                       ),
@@ -513,6 +513,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
                               children: [
                                 Icon(
                                   Icons.filter_alt_outlined,
+                                  size: 18.r,
                                   color: darkMode
                                       ? Colors.white
                                       : const Color(0XFF000F24),
@@ -520,9 +521,9 @@ class _CountryListScreenState extends State<CountryListScreen> {
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                const Text(
+                                Text(
                                   'Filter',
-                                  style: TextStyle(),
+                                  style: TextStyle(fontSize: 14.sp),
                                 )
                               ],
                             ),

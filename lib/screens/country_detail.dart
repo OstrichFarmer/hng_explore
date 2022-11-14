@@ -73,7 +73,7 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
-                        width: MediaQuery.of(context).size.width,
+                        width: MediaQuery.of(context).size.width * 0.9,
                         decoration: BoxDecoration(
                             borderRadius:
                                 BorderRadius.circular(Dimensions.height8),
