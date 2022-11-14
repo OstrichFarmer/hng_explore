@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_awesome_select/flutter_awesome_select.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hng_explore/utilities/dimensions.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config_file.dart';
@@ -11,8 +12,10 @@ import '../models/country_model.dart';
 import '../models/language_model.dart';
 import '../provider/countr_list_provider.dart';
 import '../repository/country_repository.dart';
+import '../utilities/global_var.dart';
 import '../utilities/styles.dart';
 import '../widgets/country_card.dart';
+import '../network/apiservices.dart';
 
 class CountryListScreen extends StatefulWidget {
   const CountryListScreen({Key? key}) : super(key: key);
@@ -33,45 +36,56 @@ class Debouncer {
       timer!.cancel();
     }
     timer = Timer(
-      Duration(milliseconds: Duration.millisecondsPerSecond),
+      const Duration(milliseconds: Duration.millisecondsPerSecond),
       action,
     );
   }
 }
 
 class _CountryListScreenState extends State<CountryListScreen> {
+  ScrollController scrollController = ScrollController();
   TextEditingController? searchCountryController = TextEditingController();
+  ApiServices apiServices = ApiServices();
+  final TextEditingController textEditingController = TextEditingController();
+  List countries = [];
+  int countriesLength = 0;
   final _debouncer = Debouncer();
   List<Country> temp = [];
   List<Country> country = [];
   int langVal = 0;
+  List<String> selected = [];
+  bool isContinent = false;
 
-  List<S2Choice<dynamic>> continents = [
-    S2Choice(value: 1, title: 'Africa'),
-    S2Choice(value: 2, title: 'Antarctica'),
-    S2Choice(value: 3, title: 'Asia'),
-    S2Choice(value: 4, title: 'Australia'),
-    S2Choice(value: 5, title: 'Europe'),
-    S2Choice(value: 6, title: 'North America'),
-    S2Choice(value: 7, title: 'South America'),
-  ];
+  var continentFilter = GlobalVariables().regionFilter;
 
-  List<S2Choice<dynamic>> timeZone = [
-    S2Choice(value: 1, title: 'UTC+01:00'),
-    S2Choice(value: 2, title: 'UTC+02:00'),
-    S2Choice(value: 3, title: 'UTC+03:00'),
-    S2Choice(value: 4, title: 'UTC+04:00'),
-    S2Choice(value: 5, title: 'UTC+05:00'),
-    S2Choice(value: 6, title: 'UTC+06:00'),
-    S2Choice(value: 7, title: 'UTC+07:00'),
-    S2Choice(value: 8, title: 'UTC-01:00'),
-  ];
-  List<int> value = [2];
-  List<S2Choice> options = [];
+  getAllCountries() async {
+    apiServices.getAllCountries().then((value) {
+      countries = value['data'];
+      countriesLength = value['length'];
+      countries.sort((a, b) => a.name.compareTo(b.name));
+      setState(() {});
+    });
+  }
+
+  getCountriesByRegion(List region) async {
+    apiServices.getCountryByRegion(region).then((value) {
+      countries = value['data'];
+      countriesLength = value['length'];
+      countries.sort((a, b) => a.name!.compareTo(b.name));
+      setState(() {});
+    });
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
+    getAllCountries();
+    textEditingController.addListener(() {
+      if (textEditingController.text.isEmpty) {
+        countries.clear();
+        getAllCountries();
+      }
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((t) {
       Provider.of<CountryProvider>(context, listen: false)
           .setCountryData(CountryRespository().getData());
@@ -81,6 +95,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(countries);
     List alpha = [
       'A',
       'B',
@@ -111,6 +126,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
     ];
 
     List added = [];
+
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -273,7 +289,8 @@ class _CountryListScreenState extends State<CountryListScreen> {
                                                         strings
                                                             .setLang(index + 1);
                                                       });
-                                                      Navigator.pop(context);
+                                                      Navigator.of(context)
+                                                          .pop();
                                                     },
                                                   ),
                                                 ));
@@ -313,86 +330,213 @@ class _CountryListScreenState extends State<CountryListScreen> {
                           ),
                         ),
 
-                        /// filter
-                        InkWell(
-                          onTap: () => showModalBottomSheet(
-                            backgroundColor: Colors.transparent,
-                            context: context,
-                            builder: (context) {
-                              return SingleChildScrollView(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20))),
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 24.h,
-                                      ),
-                                      Text(
-                                        strings.get(1),
-                                        style: TextStyle(fontSize: 16.sp),
-                                      ),
-                                      SmartSelect.multiple(
-                                        choiceItems: continents,
-                                        choiceLoader: null,
-                                        title: strings.get(18),
-                                        selectedValue: value,
-                                        selectedChoice: options,
-                                        onChange: (state) {},
-                                      ),
-                                      SmartSelect.multiple(
-                                        choiceItems: timeZone,
-                                        choiceLoader: null,
-                                        title: strings.get(13),
-                                        selectedValue: value,
-                                        selectedChoice: options,
-                                        onChange: (state) {},
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
+                        //filter
+                        GestureDetector(
+                          onTap: () {
+                            showMaterialModalBottomSheet(
+                                context: context,
+                                isDismissible: false,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) {
+                                  return StatefulBuilder(
+                                      builder: ((context, setState) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                          color: darkMode
+                                              ? const Color(0XFF000F24)
+                                              : Colors.white,
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(30),
+                                              topRight: Radius.circular(30))),
+                                      height: isContinent
+                                          ? MediaQuery.of(context).size.height *
+                                              0.9
+                                          : MediaQuery.of(context).size.height *
+                                              0.3,
+                                      child: ListView(children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Padding(
+                                              padding: EdgeInsets.all(12.0),
+                                              child: Text(
+                                                'Filter',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    isContinent = false;
+                                                    selected.clear();
+                                                  });
+                                                  Navigator.pop(context);
+                                                },
+                                                icon: const Icon(Icons.close)),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Padding(
+                                              padding: EdgeInsets.all(12.0),
+                                              child: Text(
+                                                'Region',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    isContinent = !isContinent;
+                                                  });
+                                                },
+                                                icon: isContinent
+                                                    ? const Icon(
+                                                        Icons.arrow_drop_up)
+                                                    : const Icon(
+                                                        Icons.arrow_drop_down))
+                                          ],
+                                        ),
+                                        if (isContinent)
+                                          Column(
+                                            children: [
+                                              ...continentFilter
+                                                  .map((e) => CheckboxListTile(
+                                                        title: Text(e.title),
+                                                        value: e.value,
+                                                        onChanged:
+                                                            (bool? value) {
+                                                          setState(() {
+                                                            e.value = value!;
+                                                            if (e.value ==
+                                                                true) {
+                                                              selected
+                                                                  .add(e.title);
+                                                            } else {
+                                                              selected.remove(
+                                                                  e.title);
+                                                            }
+                                                          });
+                                                        },
+                                                      ))
+                                                  .toList(),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    ElevatedButton(
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            for (var element
+                                                                in continentFilter) {
+                                                              element.value =
+                                                                  false;
+                                                            }
+                                                            selected.clear();
+                                                          });
+                                                          getAllCountries();
+                                                          Navigator.pop(
+                                                              context);
+                                                          EasyLoading.showSuccess(
+                                                              'Filter Reset');
+                                                        },
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                                primary:
+                                                                    const Color(
+                                                                        0XFFFFFFFF)),
+                                                        child: const Text(
+                                                          'Reset',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black),
+                                                        )),
+                                                    ElevatedButton(
+                                                        onPressed: () {
+                                                          if (selected
+                                                              .isNotEmpty) {
+                                                            getCountriesByRegion(
+                                                                selected);
+                                                            Navigator.pop(
+                                                                context);
+                                                            EasyLoading.showSuccess(
+                                                                'Filter Applied... Please Wait..');
+                                                          } else {
+                                                            EasyLoading.showError(
+                                                                'Please Select Atleast One Region');
+                                                          }
+                                                        },
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                                primary:
+                                                                    const Color(
+                                                                        0XFFFF6C00)),
+                                                        child: const Text(
+                                                            'Show Result')),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        else
+                                          const SizedBox.shrink(),
+                                      ]),
+                                    );
+                                  }));
+                                });
+                          },
                           child: Container(
                             height: 40.h,
-                            width: 86.w,
+                            width: 73.w,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5.r),
                                 border:
                                     Border.all(color: const Color(0xffA9B8D4))),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(
-                                  width: 5.w,
-                                ),
                                 Icon(
                                   Icons.filter_alt_outlined,
-                                  size: 19.r,
+                                  color: darkMode
+                                      ? Colors.white
+                                      : const Color(0XFF000F24),
                                 ),
-                                Text(
-                                  strings.get(1),
-                                  style: TextStyle(fontSize: 14.sp),
+                                const SizedBox(
+                                  width: 5,
                                 ),
-                                SizedBox(
-                                  width: 5.w,
-                                ),
+                                const Text(
+                                  'Filter',
+                                  style: TextStyle(),
+                                )
                               ],
                             ),
                           ),
-                        ),
+                        )
                       ],
                     ),
+
                     SizedBox(
                       height: 16.h,
                     ),
 
                     /// country list
+
                     FutureBuilder(
                       future: provider.getCountryData,
                       builder: (context, snapshot) {
@@ -402,6 +546,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
                           if (country.isEmpty) {
                             country = temp;
                           }
+
                           return ListView.builder(
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),

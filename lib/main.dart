@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:hng_explore/provider/countr_list_provider.dart';
 import 'package:hng_explore/screens/country.dart';
@@ -7,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'config_file.dart';
 import 'models/language_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 Lang strings = Lang();
 
@@ -66,6 +68,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           themeMode: currentTheme.currentTheme(),
           home: child,
+          builder: EasyLoading.init(),
         );
       },
       child: const CountryListScreen(),
