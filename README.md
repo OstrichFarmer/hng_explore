@@ -1,3 +1,10 @@
+
+![2022-11-14 11-12-47 High Res Screenshot](https://user-images.githubusercontent.com/21319483/201634205-92ab1b98-c176-42a0-8145-a50f05f40769.png)
+![2022-11-14 11-12-37 High Res Screenshot](https://user-images.githubusercontent.com/21319483/201634215-54cc3c51-ad62-4e24-98c6-f6f16a044298.png)
+![2022-11-14 11-12-32 High Res Screenshot](https://user-images.githubusercontent.com/21319483/201634219-ae9bb1d0-29ba-4d0f-addc-b11a0d24966b.png)
+![2022-11-14 11-12-25 High Res Screenshot](https://user-images.githubusercontent.com/21319483/201634221-0dd0446c-920c-4e4d-8372-dbeabfe0a417.png)
+![2022-11-14 11-12-16 High Res Screenshot](https://user-images.githubusercontent.com/21319483/201634223-43654b77-8010-4f56-8d75-d8dd74ad3aca.png)
+
 APP DESCRIPTION
 HNG Explore is a mobile app that shows a list of countries and the details about them. 
 On launch the app goes straight to the page that shows a list of all the countries.
@@ -32,9 +39,9 @@ The repository folder contains the countrylistrepo which fetches the data and ha
 The widgets folder contains reusable widgets
 
 CHALLENGES
-The first challenge I had was the deadline that was shifted forward. I panicked and it resulted to making a couple of mistakes which I later fixed
+The first challenge I had was the deadline that was shifted forward. I panicked and it resulted to making a couple of mistakes which I later fixed after the deadline was extended
 I had a couple of challenges while trying to fetch data from the API and I tried to resolve it by going online and reading almost all flutter notes and watching video tutorials out there. 
 If I had a little more time I'd have implemented the automatic switching to dark mode and also finish up the funcionality of the filter by continents. 
 
 Appetize Link: https://appetize.io/app/j4p4atuv2pmpzxjmfbuaaijlzq?device=pixel4&osVersion=11.0&scale=75
-Google drive Link: 
+Google drive Link: https://drive.google.com/drive/folders/1soVmk7bOlP0cqIoun2Kq3_ZcHmCaIRZy?usp=share_link
