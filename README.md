@@ -36,5 +36,5 @@ The first challenge I had was the deadline that was shifted forward. I panicked 
 I had a couple of challenges while trying to fetch data from the API and I tried to resolve it by going online and reading almost all flutter notes and watching video tutorials out there. 
 If I had a little more time I'd have implemented the automatic switching to dark mode and also finish up the funcionality of the filter by continents. 
 
-Appetize Link: 
+Appetize Link: https://appetize.io/app/j4p4atuv2pmpzxjmfbuaaijlzq?device=pixel4&osVersion=11.0&scale=75
 Google drive Link: 
